@@ -421,14 +421,6 @@ if(UNIX)
         input/wintab/kis_tablet_support.cpp
         qtlockedfile/qtlockedfile_unix.cpp
         )
-    if(NOT APPLE)
-        set(kritaui_LIB_SRCS
-            ${kritaui_LIB_SRCS}
-            input/wintab/qxcbconnection_xi2.cpp
-            input/wintab/qxcbconnection.cpp
-            input/wintab/kis_xi2_event_filter.cpp
-            )
-    endif()
 endif()
 
 if(APPLE)
@@ -532,12 +524,6 @@ if (HAVE_KIO)
     target_link_libraries(kritaui KF5::KIOCore)
 endif() 
 
-if (NOT WIN32 AND NOT APPLE)
-  target_link_libraries(kritaui ${X11_X11_LIB}
-                                ${X11_Xinput_LIB}
-                                ${XCB_LIBRARIES})
-endif()
-
 if(APPLE)
     target_link_libraries(kritaui ${FOUNDATION_LIBRARY})
     target_link_libraries(kritaui ${APPKIT_LIBRARY})
@@ -545,15 +531,6 @@ endif ()
 
 
 target_link_libraries(kritaui ${OPENEXR_LIBRARIES})
-
-# Add VSync disable workaround
-if(NOT WIN32 AND NOT APPLE)
-    target_link_libraries(kritaui ${CMAKE_DL_LIBS} Qt5::X11Extras)
-endif()
-
-if(X11_FOUND)
-    target_link_libraries(kritaui Qt5::X11Extras ${X11_LIBRARIES})
-endif()
 
 target_include_directories(kritaui
     PUBLIC
